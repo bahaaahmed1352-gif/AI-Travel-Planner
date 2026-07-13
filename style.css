@@ -225,10 +225,25 @@ button{ font-family:inherit; cursor:pointer; }
 .footer-inner{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
 
 /* ---------------- Modal ---------------- */
-.modal-backdrop{
-  position:fixed; inset:0; background:rgba(11,42,74,0.55); display:flex; align-items:center; justify-content:center;
-  z-index:100; padding:20px;
+/* عدل هذا الجزء في style.css */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(11,42,74,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+  /* إضافة هذا السطر يضمن اختفاءه افتراضياً */
+  display: none; 
 }
+
+/* أضف هذا التنسيق لضمان إظهاره عند تفعيل الكود */
+.modal-backdrop:not([hidden]) {
+  display: flex !important;
+}
+
 .modal{
   background:var(--white); border-radius:16px; padding:32px; max-width:480px; width:100%;
   position:relative; box-shadow:var(--shadow-lg); max-height:80vh; overflow-y:auto;
