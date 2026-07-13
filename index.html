@@ -1,210 +1,170 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Voya — Smart Travel Agent</title>
-
-<!-- Leaflet map CDN -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-<!-- html2pdf CDN for itinerary export -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-<!-- Fonts: Sora for display, Inter for body, IBM Plex Mono for data/tickets -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مخطط السفر بالذكاء الاصطناعي</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&amp;display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<!-- ============ HEADER ============ -->
-<header class="site-header" id="top">
-  <div class="wrap header-inner">
-    <a class="logo" href="#top">
-      <span class="logo-mark">✈</span>
-      <span class="logo-word">Voya<span class="logo-dot">.</span></span>
-    </a>
-    <nav class="main-nav" id="mainNav">
-      <a href="#planner">Plan a trip</a>
-      <a href="#itinerary">Itinerary</a>
-      <a href="#budget">Budget</a>
-      <a href="#esim">eSIM store</a>
-    </nav>
-    <button class="btn btn-primary btn-small" id="navCta">Start planning</button>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
-  </div>
-</header>
-
-<!-- ============ HERO ============ -->
-<section class="hero">
-  <div class="wrap hero-inner">
-    <div class="hero-copy">
-      <p class="eyebrow">AI trip planning · UAE routes</p>
-      <h1>Three cities. One route.<br>A plan you can hold.</h1>
-      <p class="hero-sub">Tell Voya your destination, days and budget. Get a day-by-day
-      itinerary, a live map, a real budget sheet and a boarding-pass you can actually print.</p>
-      <div class="hero-actions">
-        <button class="btn btn-primary" id="heroCta">Plan my trip</button>
-        <a class="btn btn-ghost" href="#itinerary">See a sample route ↓</a>
-      </div>
-    </div>
-
-    <!-- Signature element: route strip connecting the three mock destinations -->
-    <div class="route-strip" aria-hidden="true">
-      <div class="route-line"></div>
-      <div class="route-stop" style="--d:0"><span class="stop-dot"></span><span class="stop-label">Dubai</span></div>
-      <div class="route-stop" style="--d:1"><span class="stop-dot"></span><span class="stop-label">Abu Dhabi</span></div>
-      <div class="route-stop" style="--d:2"><span class="stop-dot"></span><span class="stop-label">Ras Al Khaimah</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ TRIP PLANNER ============ -->
-<section class="section" id="planner">
-  <div class="wrap">
-    <h2 class="section-title"><span class="section-eyebrow">01</span> Plan the route</h2>
-    <div class="planner-grid">
-      <form class="planner-card" id="plannerForm">
-        <label class="field">
-          <span>Destination</span>
-          <select id="destination" required>
-            <option value="dubai">Dubai</option>
-            <option value="abudhabi">Abu Dhabi</option>
-            <option value="rak">Ras Al Khaimah</option>
-          </select>
-        </label>
-        <label class="field">
-          <span>Days</span>
-          <input type="number" id="days" min="1" max="7" value="3" required>
-        </label>
-        <label class="field">
-          <span>Budget (USD)</span>
-          <input type="number" id="budget" min="200" step="50" value="1500" required>
-        </label>
-        <label class="field">
-          <span>Trip type</span>
-          <select id="tripType" required>
-            <option value="relax">Relax &amp; beach</option>
-            <option value="adventure">Adventure</option>
-            <option value="culture">Culture &amp; heritage</option>
-            <option value="luxury">Luxury</option>
-          </select>
-        </label>
-        <button type="submit" class="btn btn-primary btn-full" id="generateBtn">Generate itinerary</button>
-      </form>
-
-      <div class="planner-preview" id="plannerPreview">
-        <div class="skeleton-wrap" id="skeletonWrap" hidden>
-          <div class="skel-line w60"></div>
-          <div class="skel-line w80"></div>
-          <div class="skel-card"></div>
-          <div class="skel-card"></div>
-          <p class="skel-caption">Building your route…</p>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-plane"></i>
+                <span>مخطط السفر AI</span>
+            </div>
+            <nav class="nav">
+                <a href="#plan">تخطيط الرحلة</a>
+                <a href="#itinerary">البرنامج</a>
+                <a href="#budget">الميزانية</a>
+            </nav>
+            <button onclick="startPlanning()" class="btn-primary">ابدأ رحلتك</button>
         </div>
-        <div class="preview-empty" id="previewEmpty">
-          <p>Your generated summary will land here — pick a destination and hit
-          <strong>Generate itinerary</strong>.</p>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>خطط رحلتك المثالية مع الذكاء الاصطناعي</h1>
+            <p>وكيل سفر شخصي يجعل كل رحلة لا تُنسى</p>
+            <button onclick="startPlanning()" class="btn-primary large">ابدأ الآن</button>
         </div>
-        <div class="preview-result" id="previewResult" hidden></div>
-      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Trip Input Section -->
+        <section id="plan" class="input-section">
+            <h2>خطط رحلتك</h2>
+            <form id="trip-form" onsubmit="generateItinerary(event)">
+                <div class="form-grid">
+                    <!-- Destination -->
+                    <div class="form-group">
+                        <label for="destination">الوجهة</label>
+                        <select id="destination" required>
+                            <option value="">اختر الوجهة</option>
+                            <option value="dubai">دبي</option>
+                            <option value="abudhabi">أبوظبي</option>
+                            <option value="rasalkhaimah">رأس الخيمة</option>
+                        </select>
+                    </div>
+                    <!-- Days -->
+                    <div class="form-group">
+                        <label for="days">عدد الأيام</label>
+                        <input type="number" id="days" min="1" max="14" value="5" required>
+                    </div>
+                    <!-- Budget -->
+                    <div class="form-group">
+                        <label for="budget">الميزانية الإجمالية (درهم)</label>
+                        <input type="number" id="budget" min="1000" value="5000" required>
+                    </div>
+                    <!-- Trip Type -->
+                    <div class="form-group">
+                        <label>نوع الرحلة</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="tripType" value="family" checked> عائلي</label>
+                            <label><input type="radio" name="tripType" value="business"> عمل</label>
+                            <label><input type="radio" name="tripType" value="adventure"> مغامرة</label>
+                            <label><input type="radio" name="tripType" value="relax"> استرخاء</label>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary generate-btn">
+                    <span>ولّد الخطة</span>
+                    <i class="fas fa-magic"></i>
+                </button>
+            </form>
+        </section>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>يتم توليد خطة سفرك الذكية...</p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="results hidden">
+            <!-- Interactive Map -->
+            <section class="map-section">
+                <h2>مسار رحلتك</h2>
+                <div id="map" class="map-container"></div>
+            </section>
+
+            <!-- Itinerary -->
+            <section id="itinerary" class="itinerary-section">
+                <h2>برنامج الرحلة اليومي</h2>
+                <div id="itinerary-list" class="itinerary-list"></div>
+            </section>
+
+            <!-- Budget -->
+            <section id="budget" class="budget-section">
+                <h2>توزيع الميزانية</h2>
+                <div class="budget-table">
+                    <table id="budget-table">
+                        <thead>
+                            <tr>
+                                <th>الفئة</th>
+                                <th>النسبة</th>
+                                <th>المبلغ (درهم)</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Booking Cards -->
+            <section class="bookings-section">
+                <h2>اقتراحات الحجوزات</h2>
+                <div id="booking-cards" class="cards-grid"></div>
+            </section>
+
+            <!-- Export -->
+            <div class="export-section">
+                <button onclick="exportToPDF()" class="btn-primary">
+                    <i class="fas fa-download"></i> تصدير كـ PDF
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Booking Modal -->
+    <div id="booking-modal" class="modal hidden">
+        <div class="modal-content">
+            <span onclick="closeModal()" class="close">&times;</span>
+            <h3>تأكيد الحجز</h3>
+            <p id="modal-message"></p>
+            <div class="modal-buttons">
+                <button onclick="closeModal()" class="btn-secondary">إلغاء</button>
+                <button onclick="confirmBooking()" class="btn-primary">تأكيد الحجز</button>
+            </div>
+        </div>
     </div>
-  </div>
-</section>
 
-<!-- ============ MAP ============ -->
-<section class="section section-alt" id="map-section">
-  <div class="wrap">
-    <h2 class="section-title"><span class="section-eyebrow">02</span> The route on a map</h2>
-    <div id="map"></div>
-  </div>
-</section>
+    <!-- Toast -->
+    <div id="toast" class="toast hidden">تم الحجز بنجاح!</div>
 
-<!-- ============ ITINERARY ============ -->
-<section class="section" id="itinerary">
-  <div class="wrap">
-    <h2 class="section-title"><span class="section-eyebrow">03</span> Daily itinerary</h2>
-    <div class="day-tabs" id="dayTabs"></div>
-    <div class="timeline" id="timeline"></div>
-  </div>
-</section>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 مخطط السفر AI - جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
 
-<!-- ============ BUDGET ============ -->
-<section class="section section-alt" id="budget">
-  <div class="wrap">
-    <h2 class="section-title"><span class="section-eyebrow">04</span> Smart budgeting</h2>
-    <div class="budget-grid">
-      <table class="budget-table" id="budgetTable">
-        <thead>
-          <tr><th>Category</th><th>Share</th><th class="num-col">USD</th><th class="num-col">AED</th></tr>
-        </thead>
-        <tbody id="budgetBody"></tbody>
-        <tfoot>
-          <tr><td>Total</td><td></td><td class="num-col" id="totalUSD">—</td><td class="num-col" id="totalAED">—</td></tr>
-        </tfoot>
-      </table>
-
-      <div class="converter-card">
-        <h3>Currency converter</h3>
-        <p class="converter-note">Fixed reference rate · 1 USD = 3.673 AED</p>
-        <label class="field">
-          <span>USD</span>
-          <input type="number" id="convUSD" value="100" min="0">
-        </label>
-        <div class="converter-swap">⇅</div>
-        <label class="field">
-          <span>AED</span>
-          <input type="number" id="convAED" value="367.30" min="0">
-        </label>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ ESIM STORE ============ -->
-<section class="section" id="esim">
-  <div class="wrap">
-    <h2 class="section-title"><span class="section-eyebrow">05</span> eSIM store</h2>
-    <p class="section-lede">Stay connected across all three emirates. Buying a package
-    updates your budget sheet automatically.</p>
-    <div class="esim-grid" id="esimGrid"></div>
-  </div>
-</section>
-
-<!-- ============ EXPORT ============ -->
-<section class="section section-alt" id="export">
-  <div class="wrap export-wrap">
-    <div>
-      <h2 class="section-title"><span class="section-eyebrow">06</span> Take it with you</h2>
-      <p class="section-lede">Export the itinerary and budget as a boarding-pass style PDF.</p>
-    </div>
-    <button class="btn btn-primary" id="exportBtn">Download plan (PDF)</button>
-  </div>
-</section>
-
-<footer class="site-footer">
-  <div class="wrap footer-inner">
-    <span>Voya — a Smart Travel Agent MVP</span>
-    <span class="footer-muted">Mock data for Dubai · Abu Dhabi · Ras Al Khaimah</span>
-  </div>
-</footer>
-
-<!-- Modal -->
-<div class="modal-backdrop" id="modalBackdrop" hidden>
-  <div class="modal" role="dialog" aria-modal="true">
-    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
-    <div id="modalBody"></div>
-  </div>
-</div>
-
-<!-- Toast -->
-<div class="toast" id="toast" hidden></div>
-
-<!-- PDF export target (hidden clone built at export time) -->
-<div id="pdfRoot" class="pdf-root" hidden></div>
-
-<script src="app.js"></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
