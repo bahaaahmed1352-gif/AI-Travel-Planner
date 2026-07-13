@@ -433,4 +433,12 @@ function init(){
   }
 }
 
-document.addEventListener("DOMContentLoaded", init);
+document.addEventListener("DOMContentLoaded", init);/* أضف هذا السطر داخل دالة init */
+function init(){
+  // أضف هذا السطر للتأكد من إغلاق المودال عند فتح الصفحة
+  $("#modalBackdrop").hidden = true; 
+  
+  renderEsimStore();
+  // ... باقي الكود كما هو
+}
+
